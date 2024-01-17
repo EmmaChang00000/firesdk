@@ -11,7 +11,12 @@ import { environment } from '../../environments/environment';
 import { BaseUrl, IResponse, LocalUrl } from '../config';
 import { HttpClient } from '@angular/common/http';
 import { FirebaseApp } from '@angular/fire/app';
-import { getMessaging, getToken } from '@angular/fire/messaging';
+import {
+  MessagePayload,
+  getMessaging,
+  getToken,
+  onMessage,
+} from '@angular/fire/messaging';
 
 @Component({
   selector: 'app-notification',
@@ -29,8 +34,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
     private location: PlatformLocation,
     private appService: AppService,
     private http: HttpClient,
-    private swPush: SwPush,
-    private firebaseApp: FirebaseApp
+    public firebaseApp: FirebaseApp
   ) {}
 
   ngOnInit() {
@@ -45,6 +49,18 @@ export class NotificationComponent implements OnInit, OnDestroy {
       .subscribe((registration) => {
         this.registration = registration;
       });
+
+    this.listen();
+  }
+
+  listen() {
+    const messaging = getMessaging(this.firebaseApp);
+
+    onMessage(messaging, (payload: MessagePayload) => {
+      if (payload && this.registration) {
+        this.registration.showNotification(payload?.notification?.body || '');
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -84,14 +100,12 @@ export class NotificationComponent implements OnInit, OnDestroy {
       })
     );
 
-    notification$
-      .pipe(take(1))
-      .subscribe((token: string | null) => {
-        console.log('token::', token);
-        if (token) {
-          this.registerNotification(token);
-        }
-      });
+    notification$.pipe(take(1)).subscribe((token: string | null) => {
+      console.log('token::', token);
+      if (token) {
+        this.registerNotification(token);
+      }
+    });
   }
 
   registerNotification(token: string) {
@@ -102,7 +116,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
       })
       .pipe(take(1))
       .subscribe((response: IResponse) => {
-        console.log('registerNotification Response::', response);
         this.appService.nextNotificationPermission(this.notificationPermission);
       });
   }

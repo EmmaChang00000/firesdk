@@ -25,9 +25,16 @@
           "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
         ]
       }
+    },
+    {
+      "name": "firebase-messaging",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/firebase-messaging-sw.js"
+        ]
+      }
     }
-  ],
-  "appData": {
-    "firebase-messaging-sw.js": "./firebase-messaging-sw.js"
-  }
+  ]
 }

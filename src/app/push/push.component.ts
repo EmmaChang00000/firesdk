@@ -75,6 +75,6 @@ export class PushComponent implements OnInit, OnDestroy {
       },
     };
 
-    return JSON.stringify(o);
+    return o;
   }
 }

@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
       this.nextServiceWorkerActivation(false);
       return;
     } else {
+      console.log('navigator.serviceWorker.controller exist!!');
       this.nextServiceWorkerActivation(true);
     }
   }
@@ -58,6 +59,7 @@ export class AppComponent implements OnInit {
   }
 
   checkServiceWorkerActivation() {
+    console.log('12345 checkServiceWorkerActivation!!');
     from(navigator.serviceWorker.ready)
       .pipe(
         map((registration) => {
@@ -66,6 +68,7 @@ export class AppComponent implements OnInit {
         take(1)
       )
       .subscribe((registration) => {
+        console.log('sw registration::', registration);
         this.appService.nextMsg({
           target: 'notification',
           timestamp: Date.now(),
