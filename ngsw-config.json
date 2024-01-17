@@ -26,5 +26,8 @@
         ]
       }
     }
-  ]
+  ],
+  "appData": {
+    "firebase-messaging-sw.js": "./firebase-messaging-sw.js"
+  }
 }
