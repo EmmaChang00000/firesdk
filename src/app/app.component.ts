@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   constructor(private appService: AppService) {}
 
   ngOnInit(): void {
-    this.checkServiceWorkerActivation();
+    this.checkServiceWorkerController();
   }
 
   checkServiceWorkerController() {
