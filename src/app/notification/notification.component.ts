@@ -42,6 +42,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    console.log(environment.production ,this.location.hostname);
     if (!environment.production || this.location.hostname === 'localhost') {
       this.apiUrl = LocalUrl;
     }
