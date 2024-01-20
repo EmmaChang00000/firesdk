@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { take } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { BaseUrl, IResponse, LocalUrl } from '../config';
+import { BaseUrl, IResponse, LocalUrl, TCheckPush } from '../config';
 import { PlatformLocation } from '@angular/common';
 import { Subscription } from 'rxjs/internal/Subscription';
 
@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 })
 export class PushComponent implements OnInit, OnDestroy {
   subscription: Subscription | null = null;
-  notificationPermission: NotificationPermission | null = null;
+  checkPush: TCheckPush | null = null;
   apiUrl = '';
   content = '';
   group = '';
@@ -33,9 +33,9 @@ export class PushComponent implements OnInit, OnDestroy {
       this.apiUrl = LocalUrl;
     }
     this.subscription = this.appService
-      .isNotificationPermissionIn()
-      .subscribe((notificationPermission) => {
-        this.notificationPermission = notificationPermission;
+      .isCheckPushIn()
+      .subscribe((checkPush) => {
+        this.checkPush = checkPush;
       });
   }
 
@@ -51,7 +51,7 @@ export class PushComponent implements OnInit, OnDestroy {
   }
 
   send() {
-    if (!this.notificationPermission) return;
+    if (this.checkPush !== 'success') return;
     this.http
       .post<IResponse>(`${this.apiUrl}${BaseUrl}/push`, {
         content: this.getPushContent(),
