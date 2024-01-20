@@ -1,5 +1,5 @@
 export const BaseUrl = '/api';
-export const LocalUrl = 'http://localhost:2233';
+export const LocalUrl = 'http://localhost:12345';
 
 export interface IMsg {
   target: 'notification' | 'push';
