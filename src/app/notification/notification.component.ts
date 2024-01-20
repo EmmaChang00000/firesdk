@@ -18,6 +18,10 @@ import {
   onMessage,
 } from '@angular/fire/messaging';
 
+/**
+ * 1.瀏覽器跳出權限視窗
+ * 2.拿service worker產生的認證物件
+ */
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',

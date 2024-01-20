@@ -3,6 +3,9 @@ import { from } from 'rxjs/internal/observable/from';
 import { map, take } from 'rxjs/operators';
 import { AppService } from './app.service';
 
+/**
+ * 確認service worker的狀態
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
