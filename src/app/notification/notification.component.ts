@@ -42,7 +42,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    console.log(environment.production ,this.location.hostname);
+    console.log(environment.production, this.location.hostname);
     if (!environment.production || this.location.hostname === 'localhost') {
       this.apiUrl = LocalUrl;
     }
@@ -82,11 +82,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
           this.notificationPermission = notificationPermission;
         }
         if (this.notificationPermission === 'granted') {
-          if (this.notificationPermission === 'granted' && this.registration) {
-            this.registration.showNotification('感謝您按下允許！');
-          } else {
-            this.appService.nextCheckPush('permissionNot');
-          }
+          this.registration!.showNotification('感謝您按下允許！');
           return token$;
         } else {
           console.log('notificationPermission denied!!');
