@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 import { FirebaseApp } from '@angular/fire/app';
 import {
   MessagePayload,
+  Messaging,
   getMessaging,
   getToken,
   onMessage,
@@ -38,7 +39,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
     private location: PlatformLocation,
     private appService: AppService,
     private http: HttpClient,
-    public firebaseApp: FirebaseApp
+    public firebaseApp: FirebaseApp,
+    private swPush: SwPush
   ) {}
 
   ngOnInit() {
@@ -46,6 +48,10 @@ export class NotificationComponent implements OnInit, OnDestroy {
     if (!environment.production || this.location.hostname === 'localhost') {
       this.apiUrl = LocalUrl;
     }
+
+    this.swPush.messages.subscribe((message) => {
+      console.log('Message received： ', message);
+    });
 
     this.subscription = this.appService
       .isSWRegistrationIn()
@@ -67,8 +73,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
       Notification.requestPermission()
     );
 
-    // 此網站推播的訂閱物件
     const messaging = getMessaging(this.firebaseApp);
+    // 此網站推播的訂閱物件
     const token$: Observable<string> = from(
       getToken(messaging, {
         vapidKey: environment.publicKey,
