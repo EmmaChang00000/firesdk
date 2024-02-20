@@ -75,9 +75,11 @@ export class PushComponent implements OnInit, OnDestroy {
       notification: {
         title: '標題ABC',
         body: this.content,
+        data: {
+          url: "https://www.google.com",
+        },
       },
     };
-
     return o;
   }
 }
