@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:beforeinstallprompt', ['$event'])
   onbeforeinstallprompt(e: BeforeInstallPromptEvent) {
+    console.log('BeforeInstallPromptEvent::', e);
     e.preventDefault();
     this.deferredPrompt = e;
     this.showButton = true;
