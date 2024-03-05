@@ -3,7 +3,23 @@ import { from } from 'rxjs/internal/observable/from';
 import { map, take } from 'rxjs/operators';
 import { AppService } from './app.service';
 
+declare global {
+  interface WindowEventMap {
+    beforeinstallprompt: BeforeInstallPromptEvent;
+  }
+}
+
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed';
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
+
 /**
+ * 引導pwa的安裝
  * 確認service worker的狀態
  */
 @Component({
@@ -15,27 +31,22 @@ export class AppComponent implements OnInit {
   registration: ServiceWorkerRegistration | null = null;
   waitLimit = 3;
 
-  deferredPrompt: any;
+  deferredPrompt: BeforeInstallPromptEvent | null = null;
   showButton = false;
 
   constructor(private appService: AppService) {}
 
   @HostListener('window:beforeinstallprompt', ['$event'])
-  onbeforeinstallprompt(e: any) {
-    console.log(9971, e);
-    // Prevent Chrome 67 and earlier from automatically showing the prompt
+  onbeforeinstallprompt(e: BeforeInstallPromptEvent) {
     e.preventDefault();
-    // Stash the event so it can be triggered later.
     this.deferredPrompt = e;
     this.showButton = true;
   }
 
   addToHomeScreen() {
-    // hide our user interface that shows our A2HS button
+    if (!this.deferredPrompt) return;
     this.showButton = false;
-    // Show the prompt
     this.deferredPrompt.prompt();
-    // Wait for the user to respond to the prompt
     this.deferredPrompt.userChoice.then((choiceResult: any) => {
       if (choiceResult.outcome === 'accepted') {
         console.log('User accepted the A2HS prompt');
@@ -47,7 +58,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(55);
+    console.log(66);
     this.checkServiceWorkerController();
   }
 
