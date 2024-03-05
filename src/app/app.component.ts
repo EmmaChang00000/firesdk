@@ -58,6 +58,12 @@ export class AppComponent implements OnInit {
     });
   }
 
+  @HostListener('window:appinstalled', ['$event'])
+  onappinstalled(event: any) {
+    console.log('appinstalled', event);
+    this.deferredPrompt = null;
+  }
+
   ngOnInit(): void {
     console.log(66);
     this.checkServiceWorkerController();
