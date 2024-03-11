@@ -66,9 +66,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const isIOS = /(iPhone|iPod|iPad)/i.test(navigator.userAgent);
-    alert( 'isIOS::' + isIOS);
     const isStandalone = navigator.standalone;
-    alert( 'isStandalone::' + isStandalone);
+    alert('isIOS::' + isIOS + '\n' + 'isStandalone::' + isStandalone);
     this.checkServiceWorkerController();
   }
 
