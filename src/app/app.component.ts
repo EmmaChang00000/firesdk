@@ -36,30 +36,31 @@ export class AppComponent implements OnInit {
 
   constructor(private appService: AppService) {}
 
-  @HostListener('window:beforeinstallprompt', ['$event'])
-  onbeforeinstallprompt(e: BeforeInstallPromptEvent) {
-    console.log('BeforeInstallPromptEvent::', e);
-    e.preventDefault();
-    this.deferredPrompt = e;
-    this.showButton = true;
-  }
+  // @HostListener('window:beforeinstallprompt', ['$event'])
+  // onbeforeinstallprompt(e: BeforeInstallPromptEvent) {
+  //   console.log('BeforeInstallPromptEvent::', e);
+  //   e.preventDefault();
+  //   this.deferredPrompt = e;
+  //   this.showButton = true;
+  // }
 
-  addToHomeScreen() {
-    if (!this.deferredPrompt) return;
-    this.showButton = false;
-    this.deferredPrompt.prompt();
-    this.deferredPrompt.userChoice.then((choiceResult: any) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the A2HS prompt');
-      } else {
-        console.log('User dismissed the A2HS prompt');
-      }
-      this.deferredPrompt = null;
-    });
-  }
+  // addToHomeScreen() {
+  //   if (!this.deferredPrompt) return;
+  //   this.showButton = false;
+  //   this.deferredPrompt.prompt();
+  //   this.deferredPrompt.userChoice.then((choiceResult: any) => {
+  //     if (choiceResult.outcome === 'accepted') {
+  //       console.log('User accepted the A2HS prompt');
+  //     } else {
+  //       console.log('User dismissed the A2HS prompt');
+  //     }
+  //     this.deferredPrompt = null;
+  //   });
+  // }
 
   ngOnInit(): void {
-    console.log(77);
+    const isIOS = /(iPhone|iPod|iPad)/i.test(navigator.userAgent);
+    console.log(123, isIOS);
     this.checkServiceWorkerController();
   }
 
