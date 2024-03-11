@@ -3,21 +3,6 @@ import { from } from 'rxjs/internal/observable/from';
 import { map, take } from 'rxjs/operators';
 import { AppService } from './app.service';
 
-// declare global {
-//   interface WindowEventMap {
-//     beforeinstallprompt: BeforeInstallPromptEvent;
-//   }
-// }
-
-// interface BeforeInstallPromptEvent extends Event {
-//   readonly platforms: string[];
-//   readonly userChoice: Promise<{
-//     outcome: 'accepted' | 'dismissed';
-//     platform: string;
-//   }>;
-//   prompt(): Promise<void>;
-// }
-
 declare global {
   interface Navigator {
     standalone?: boolean;
@@ -37,37 +22,14 @@ export class AppComponent implements OnInit {
   registration: ServiceWorkerRegistration | null = null;
   waitLimit = 3;
 
-  // deferredPrompt: BeforeInstallPromptEvent | null = null;
-  // showButton = false;
-
   constructor(private appService: AppService) {}
-
-  // @HostListener('window:beforeinstallprompt', ['$event'])
-  // onbeforeinstallprompt(e: BeforeInstallPromptEvent) {
-  //   console.log('BeforeInstallPromptEvent::', e);
-  //   e.preventDefault();
-  //   this.deferredPrompt = e;
-  //   this.showButton = true;
-  // }
-
-  // addToHomeScreen() {
-  //   if (!this.deferredPrompt) return;
-  //   this.showButton = false;
-  //   this.deferredPrompt.prompt();
-  //   this.deferredPrompt.userChoice.then((choiceResult: any) => {
-  //     if (choiceResult.outcome === 'accepted') {
-  //       console.log('User accepted the A2HS prompt');
-  //     } else {
-  //       console.log('User dismissed the A2HS prompt');
-  //     }
-  //     this.deferredPrompt = null;
-  //   });
-  // }
 
   ngOnInit(): void {
     const isIOS = /(iPhone|iPod|iPad)/i.test(navigator.userAgent);
     const isStandalone = navigator.standalone;
-    alert('isIOS::' + isIOS + '\n' + 'isStandalone::' + isStandalone);
+    if(isIOS && !isStandalone){
+      alert('建議將此網站加入到主畫面app，\n否則不支援推播');
+    }
     this.checkServiceWorkerController();
   }
 
