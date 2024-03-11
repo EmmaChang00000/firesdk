@@ -3,19 +3,25 @@ import { from } from 'rxjs/internal/observable/from';
 import { map, take } from 'rxjs/operators';
 import { AppService } from './app.service';
 
-declare global {
-  interface WindowEventMap {
-    beforeinstallprompt: BeforeInstallPromptEvent;
-  }
-}
+// declare global {
+//   interface WindowEventMap {
+//     beforeinstallprompt: BeforeInstallPromptEvent;
+//   }
+// }
 
-interface BeforeInstallPromptEvent extends Event {
-  readonly platforms: string[];
-  readonly userChoice: Promise<{
-    outcome: 'accepted' | 'dismissed';
-    platform: string;
-  }>;
-  prompt(): Promise<void>;
+// interface BeforeInstallPromptEvent extends Event {
+//   readonly platforms: string[];
+//   readonly userChoice: Promise<{
+//     outcome: 'accepted' | 'dismissed';
+//     platform: string;
+//   }>;
+//   prompt(): Promise<void>;
+// }
+
+declare global {
+  interface Navigator {
+    standalone?: boolean;
+  }
 }
 
 /**
@@ -31,8 +37,8 @@ export class AppComponent implements OnInit {
   registration: ServiceWorkerRegistration | null = null;
   waitLimit = 3;
 
-  deferredPrompt: BeforeInstallPromptEvent | null = null;
-  showButton = false;
+  // deferredPrompt: BeforeInstallPromptEvent | null = null;
+  // showButton = false;
 
   constructor(private appService: AppService) {}
 
@@ -60,7 +66,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const isIOS = /(iPhone|iPod|iPad)/i.test(navigator.userAgent);
-    alert(123 + '_' + isIOS);
+    alert( 'isIOS::' + isIOS);
+    const isStandalone = navigator.standalone;
+    alert( 'isStandalone::' + isStandalone);
     this.checkServiceWorkerController();
   }
 
