@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const isIOS = /(iPhone|iPod|iPad)/i.test(navigator.userAgent);
-    console.log(123, isIOS);
+    alert(123 + '_' + isIOS);
     this.checkServiceWorkerController();
   }
 
