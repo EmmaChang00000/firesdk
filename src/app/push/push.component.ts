@@ -52,6 +52,7 @@ export class PushComponent implements OnInit, OnDestroy {
 
   send() {
     if (this.checkPush !== 'success') return;
+    console.log(662, this.getPushContent());
     this.http
       .post<IResponse>(`${this.apiUrl}${BaseUrl}/push`, {
         content: this.getPushContent(),

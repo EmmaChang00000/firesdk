@@ -113,6 +113,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   registerNotification(token: string) {
+    console.log(661, token);
     this.http
       .post<IResponse>(`${this.apiUrl}${BaseUrl}/register`, {
         token: token,
